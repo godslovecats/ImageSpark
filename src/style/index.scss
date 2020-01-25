@@ -1,0 +1,39 @@
+@import 'normalize';
+@import 'grid';
+@import "variables";
+
+
+body {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $h-gray;
+  font-size: 12px;
+  font-weight: 400;
+  background: #fafafa;
+}
+
+//.container {
+//  max-width: 900px;
+//  padding: 35px;
+//  margin: auto;
+//}
+
+.title {
+  font-weight: 600;
+  &--main {
+	font-size: 2rem;
+  }
+}
+
+.icon {
+  opacity: 0.5;
+  width: 24px;
+  &--action {
+    cursor: pointer;
+    transition: opacity 0.1ms ease-in-out;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
