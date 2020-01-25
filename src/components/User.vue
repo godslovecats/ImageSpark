@@ -1,21 +1,26 @@
 <template>
-  <div class="card row">
-    <div class="col-10">
-      <div class="row">
-        <span class="col-1">
+  <div class="card row middle-xs">
+    <div class="col-md-10 row middle-xs">
+    
+        <span class="col-md-1">
           1
         </span>
-        <div class="col-2">
-          <span>{{ getFirstLetter(user.name) }} {{ getFirstLetter(user.secondName) }}</span>
+      
+        <div class="col-md-1">
+          <span class="card__img"
+            >{{ getFirstLetter(user.name) }}
+            {{ getFirstLetter(user.secondName) }}</span
+          >
         </div>
-        <div class="col-9">
+      
+        <div class="col-md-10">
           <h5>{{ user.name }} {{ user.secondName }}</h5>
           <!--				<p>{{user.secondName}}</p>-->
         </div>
-      </div>
+   
     </div>
 
-    <div class="col-2">
+    <div class="col-md-2">
       <div>
         <p>
           <strong>{{ user.rating }}</strong>
@@ -23,7 +28,6 @@
         <p>{{ getDeclOfNum(user.rating) }}</p>
       </div>
     </div>
-	  
   </div>
 </template>
 
@@ -70,5 +74,8 @@ export default {
   /*display: flex;*/
   /*align-items: center;*/
   /*justify-content: space-between;*/
+  &__img {
+    
+  }
 }
 </style>
