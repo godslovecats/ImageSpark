@@ -1,20 +1,40 @@
 <template>
   <div id="app">
     <div class="container">
-      <div class="pagehead">
-        <h1 class="">Рейтинг участников</h1>
-        <div class="search-holder">
-          <input v-model="search" class="search-holder__input" />
+      <div class="page-header">
+        <h1 class="title">Рейтинг участников</h1>
+        <div class="search">
+          <input v-model="search" />
+          <img class="icon" src="./assets/search.svg" />
+        </div>
+      </div>
+
+      <div class="sort">
+        <span>Сортировать: </span>
+        <div
+          v-for="(type, index) in sortTypes"
+          :key="type.index"
+          class="sort__item"
+          :class="{ 'sort__item--active': type.prop === sortBy }"
+          @click="sort(type.prop)"
+        >
+          <span>{{ type.name }}</span>
           <img
-            class="search-holder__icon icon icon--action"
-            src="./assets/search.svg"
+            v-if="type.prop === sortBy"
+            class="icon"
+            :class="{ 'icon--up': !sortIsAsc }"
+            src="./assets/arrow.svg"
           />
         </div>
       </div>
-      
-      <div>
-<!--        <p @click="sortUsers">sort {{ sortAsc }}</p>-->
-        <user v-for="(user, index) in users" :key="user.index" :user="user" />
+
+      <div class="content">
+        <user
+          v-for="(user, index) in users"
+          :key="user.index"
+          :user="user"
+          :index="index + 1"
+        />
       </div>
     </div>
   </div>
@@ -22,7 +42,6 @@
 
 <script>
 import User from "./components/User.vue";
-import Service from "./services/userService";
 
 export default {
   name: "app",
@@ -32,66 +51,133 @@ export default {
   data() {
     return {
       search: "",
-      sortAsc: "",
-      service: new Service(),
-      users: []
+      sortTypes: [
+        {
+          name: "По рейтингу",
+          prop: "rating"
+        },
+        {
+          name: "По возрасту",
+          prop: "age"
+        }
+      ]
     };
   },
   computed: {
-    // users(){
-    //   return this.service.getUsers()
-    // }
-  },
-  watch: {
-    search(value) {
-      this.users = this.service.findUser(value);
+    users() {
+      return this.$store.getters.getFilteredUsers(this.search);
     },
-    sortAsc(value) {
-      this.users = this.service.sortUsersByRate(value);
+    sortBy: {
+      set(orderBy) {
+        this.$store.dispatch("updateOrderBy", orderBy);
+      },
+      get() {
+        return this.$store.getters.getOrderBy;
+      }
+    },
+    sortIsAsc: {
+      set(value) {
+        this.$store.dispatch("updateOrderDirection", value);
+      },
+      get() {
+        return this.$store.getters.getOrderDirection;
+      }
     }
   },
   created() {
-    this.users = this.service.getUsers();
+    this.$store.dispatch("init");
   },
   methods: {
-    sortUsers() {
-      this.sortAsc = !this.sortAsc;
+    sort(prop) {
+      if (prop === this.sortBy) {
+        this.sortIsAsc = !this.sortIsAsc;
+      } else {
+        this.sortBy = prop;
+        this.sortIsAsc = true;
+      }
     }
   }
 };
 </script>
 
 <style lang="scss">
-.pagehead {
+.container {
+  max-width: 990px;
+  padding: 0 5px;
+  margin: auto;
+}
+.content {
+  padding: 0 15px;
+}
+
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  margin: 15px 0;
+  .title {
+    flex: 1 1 60%;
+  }
 }
-.userlist {
- // padding: 35px 60px;
+
+.icon {
+  opacity: 0.5;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+  top: calc(50% - 12px);
+  right: 5px;
+  &:hover {
+    opacity: 1;
+  }
 }
-.search-holder {
+
+.search {
   position: relative;
-  &__input {
-    width: 250px;
-    height: 100%;
+  flex: 1 1 auto;
+  input {
+    width: 100%;
+    min-width: 250px;
     padding: 10px 35px 3px 0;
     font-size: 1rem;
     box-sizing: border-box;
     border: none;
     background: transparent;
     border-bottom: solid 1px $l-gray;
+    transition: all 0.2s ease-in-out;
     &:focus {
       outline: none;
-      border-color: $green;
+      border-bottom: solid 1px $h-gray;
     }
   }
-  &__icon {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: calc(50% - 12px);
-    right: 5px;
+}
+.sort {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  &__item {
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    color: $l-gray;
+    cursor: pointer;
+    position: relative;
+    .icon {
+      transition: transform 0.2s ease-in-out;
+      vertical-align: middle;
+      &--up {
+        transform: rotate(180deg);
+      }
+    }
+    &--active {
+      color: $green;
+      font-weight: 700;
+    }
   }
 }
 </style>

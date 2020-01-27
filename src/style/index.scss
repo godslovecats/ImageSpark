@@ -1,6 +1,4 @@
 @import 'normalize';
-//@import 'grid';
-@import "variables";
 
 html,
 body {
@@ -10,57 +8,43 @@ body {
   padding: 0;
   left: 0;
   top: 0;
-  font-size: 100%;
+  font-size: 12px;
+  font-weight: 400;
+  color: $h-gray;
+  background: #fafafa;
 }
 
 * {
   font-family: $font-family;
-  color: $dark-grey;
   line-height: $font-height;
 }
 
 // typography
 
-h1 {
+.title {
+  font-weight: 700;
   font-size: 2.5rem;
 }
 
-h2 {
-  font-size: 2rem;
+.subtitle {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-h3 {
-  font-size: 1.375rem;
-}
-
-h4 {
-  font-size: 1.125rem;
-}
-
-h5 {
-  font-size: 1rem;
-}
-
-h6 {
-  font-size: 0.875rem;
-}
-
-p {
-  font-size: 1.125rem;
-  font-weight: 200;
-  line-height: 1.8;
-}
-
-.font-light {
+.f-light {
   font-weight: $font-weight-light;
 }
-
-.font-regular {
+ 
+.f-regular {
   font-weight: $font-weight-regular;
 }
-
-.font-heavy {
+ 
+.f-bold {
   font-weight: $font-weight-heavy;
+}
+.f-muted {
+  color: $l-gray;
 }
 
 // utility
@@ -79,45 +63,7 @@ p {
   margin-right: auto;
 }
 
-.justify {
-  text-align: justify;
+.m-0 {
+  margin: 0;
 }
 
-.hidden-sm {
-  display: none;
-}
-
-body {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: $h-gray;
-  font-size: 12px;
-  font-weight: 400;
-  background: #fafafa;
-}
-
-//.container {
-//  max-width: 900px;
-//  padding: 35px;
-//  margin: auto;
-//}
-
-.title {
-  font-weight: 600;
-  &--main {
-	font-size: 2rem;
-  }
-}
-
-.icon {
-  opacity: 0.5;
-  width: 24px;
-  &--action {
-    cursor: pointer;
-    transition: opacity 0.1ms ease-in-out;
-    &:hover {
-      opacity: 1;
-    }
-  }
-}
